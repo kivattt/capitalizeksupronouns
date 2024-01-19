@@ -1,0 +1,23 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io/' }
+    }
+    dependencies {
+        classpath('com.github.Fox2Code.FoxLoader:dev:1.2.33')
+    }
+}
+
+apply plugin: 'foxloader.dev'
+
+version '1.0.0'
+
+foxloader {
+    // forceReload = true
+    modId = "capitalizeksupronouns"
+    modName = "CapitalizeKSUPronouns"
+    modVersion = project.version
+    modDesc = "Capitalizes pronouns in chat messages from KivaServerUtils"
+    modWebsite = "https://github.com/kivattt/capitalizeksupronouns"
+    clientMod = "com.kiva.capitalizeksupronouns.CapitalizeKSUPronounsClient"
+}

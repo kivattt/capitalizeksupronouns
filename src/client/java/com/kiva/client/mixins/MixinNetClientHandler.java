@@ -17,6 +17,9 @@ public class MixinNetClientHandler {
     // This could be an @Overwrite, but I could not get it work in Intellij IDEA
     @Inject(method = "handleChat", at = @At("HEAD"), cancellable = true)
     public void onHandleChat(Packet3Chat packet3, CallbackInfo ci) {
+        if (!packet3.message.startsWith(CapitalizeKSUPronounsClient.pronounsStartStr))
+            return;
+
         int pronounsIndexStart = packet3.message.indexOf(CapitalizeKSUPronounsClient.pronounsStartStr);
         int pronounsIndexEnd = packet3.message.indexOf(CapitalizeKSUPronounsClient.pronounsEndStr);
 

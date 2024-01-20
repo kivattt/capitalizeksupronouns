@@ -17,14 +17,22 @@ public class MixinNetClientHandler {
     // This could be an @Overwrite, but I could not get it work in Intellij IDEA
     @Inject(method = "handleChat", at = @At("HEAD"), cancellable = true)
     public void onHandleChat(Packet3Chat packet3, CallbackInfo ci) {
-        if (!packet3.message.startsWith(CapitalizeKSUPronounsClient.pronounsStartStr))
-            return;
+        int pronounsIndexEnd;
 
-        int pronounsIndexStart = packet3.message.indexOf(CapitalizeKSUPronounsClient.pronounsStartStr);
-        int pronounsIndexEnd = packet3.message.indexOf(CapitalizeKSUPronounsClient.pronounsEndStr);
+        boolean isNewFormat = false;
 
         // Hacky, could implement a proper parser but this should work fine.
-        if (pronounsIndexStart == -1 || pronounsIndexEnd == -1){
+        if (packet3.message.startsWith(CapitalizeKSUPronounsClient.pronounsStartStr)){
+            isNewFormat = true;
+        } else if (!packet3.message.startsWith(CapitalizeKSUPronounsClient.pronounsStartStrOld)) {
+            mc.ingameGUI.addChatMessageTranslate(packet3.message);
+            ci.cancel();
+            return;
+        }
+
+        pronounsIndexEnd = packet3.message.indexOf(CapitalizeKSUPronounsClient.pronounsEndStr);
+
+        if (pronounsIndexEnd == -1){
             mc.ingameGUI.addChatMessageTranslate(packet3.message);
             ci.cancel();
             return;
@@ -33,7 +41,7 @@ public class MixinNetClientHandler {
         StringBuilder stringBuilder = new StringBuilder(packet3.message);
 
         boolean startOfAPronoun = true;
-        for (int i = pronounsIndexStart + CapitalizeKSUPronounsClient.pronounsStartStr.length(); i < pronounsIndexEnd; i++){
+        for (int i = isNewFormat ? 5 : 3; i < pronounsIndexEnd; i++){
             char character = packet3.message.charAt(i);
 
             if (character == '/'){

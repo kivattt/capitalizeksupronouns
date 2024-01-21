@@ -1,4 +1,4 @@
-package com.kiva.client.mixins;
+package com.kiva.capitalizeksupronouns.client.mixins;
 
 import com.kiva.capitalizeksupronouns.CapitalizeKSUPronounsClient;
 import net.minecraft.client.Minecraft;

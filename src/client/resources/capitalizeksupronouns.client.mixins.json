@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.kiva.client.mixins",
+  "package": "com.kiva.capitalizeksupronouns.client.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinNetClientHandler"
